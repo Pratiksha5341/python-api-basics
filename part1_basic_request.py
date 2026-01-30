@@ -10,19 +10,53 @@ We'll use JSONPlaceholder - a free fake API for testing.
 
 import requests
 
-# Step 1: Define the API URL
-url = "https://jsonplaceholder.typicode.com/posts/1"
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
 
-# Step 2: Make a GET request
-response = requests.get(url)
+def fetch_data(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raises error for 4xx/5xx
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print("❌ Error:", e)
+        return None
 
-# Step 3: Print the response
-print("=== Basic API Request ===\n")
-print(f"URL: {url}")
-print(f"Status Code: {response.status_code}")
-print(f"\nResponse Data:")
-print(response.json())
 
+print("===================================")
+print(" Exercise 1: Fetch Post #5")
+print("===================================")
+
+url_post_5 = "https://jsonplaceholder.typicode.com/posts/5"
+data1 = fetch_data(url_post_5)
+
+if data1:
+    print(data1)
+
+
+print("\n===================================")
+print(" Exercise 2: Fetch All Users")
+print("===================================")
+
+url_users = "https://jsonplaceholder.typicode.com/users"
+data2 = fetch_data(url_users)
+
+if data2:
+    print(data2)
+
+
+print("\n===================================")
+print(" Exercise 3: Fetch Invalid Post")
+print("===================================")
+
+url_invalid = "https://jsonplaceholder.typicode.com/posts/999"
+data3 = fetch_data(url_invalid)
+
+if data3:
+    print(data3)
+else:
+    print("No data found.")
 
 # --- EXERCISES ---
 # Try these on your own:
